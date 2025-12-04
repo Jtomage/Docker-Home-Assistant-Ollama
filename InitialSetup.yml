@@ -1,0 +1,46 @@
+x-env-user: &env-user
+  - PUID=1001
+  - PGID=1000
+
+x-env-tx: &env-tx
+  - TZ=Etc/UTC
+
+x-networks: &networks
+  networks:
+    - smart-home-network
+
+x-dependsOn-init-smart-vol: &dependsOn-init
+  depends_on:
+    init_sh_volume: 
+      condition: service_completed_successfully
+
+x-volumes-sh-vol: &volumes-sh-vol
+  - type: volume
+    source: ${sh-vol}
+    target: /config
+    bind: 
+      propagation: shared
+    volume: 
+      subpath: "#replaceMe/"
+
+
+services: 
+  # Setup main Volume for storing smart home configs
+  # https://github.com/moby/moby/issues/47842 need to mkdir in the volumes
+  init_sh_volume: 
+    image: "alpine:latest"
+    command: |
+      mkdir -p /apps/homeassistant /apps/nodered /apps/mosquitto/data /apps/mosquitto/log /apps/code-server
+    volumes: 
+      - smarthome_volume:/apps
+
+# Create Smart Home Network
+networks: 
+  smart-home-network:
+    driver: bridge
+    name: ${sh-network}
+
+volumes:
+  smart-home-volume:
+    driver: local
+    name: ${sh-vol}

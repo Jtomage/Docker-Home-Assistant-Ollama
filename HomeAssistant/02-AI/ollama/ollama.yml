@@ -1,0 +1,28 @@
+include:
+  ../../InitialSetup.yml
+
+services: 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - 11434:11434
+    <<*: *networks
+    volumes: 
+      - ollama_vol:/root/.ollama
+
+  ## Comment out if you do NOT want the Ollama Web Gui seperate from Home Assistant  
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui-ollama
+    depends_on:
+      - ollama
+    ports:
+      - "8181:8080"
+    environment:
+      OLLAMA_API_BASE_URL: http://ollama:11434/api # Connects to the Ollama service
+
+volumes: 
+  ollama_vol:
+    driver: local
+    name: ollama_vol

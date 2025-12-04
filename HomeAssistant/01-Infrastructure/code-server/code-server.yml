@@ -1,0 +1,18 @@
+include: 
+  - ../../InitialSetup.yml
+
+services: 
+  code-server:
+    container_name: code-server
+    image: lscr.io/linuxserver/code-server:latest
+    ports: 
+      - 8443:8443
+    environment: 
+      <<: *env-user
+      DEFAULT_WORKSPACE: /apps
+    <<: [*networks, *x-dependsOn-init]
+    volumes: 
+      - <<: *volumes-sh-vol
+        volume:
+          subpath: code-server/
+      - smarthome_volume:/apps

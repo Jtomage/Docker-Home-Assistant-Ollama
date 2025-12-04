@@ -1,0 +1,21 @@
+include: 
+  - ../InitVA.yml
+
+services:
+  faster-whisper:
+    image: lscr.io/linuxserver/faster-whisper:latest
+    container_name: faster-whisper
+    restart: unless-stopped
+    ports:
+      - 10300:10300
+    environment:
+      - <<: [*env-user, *env-tx]
+      - WHISPER_MODEL=tiny-int8
+      - LOCAL_ONLY=true #optional
+      - WHISPER_BEAM=1 #optional
+      - WHISPER_LANG=en #optional
+    <<: *networks
+    volumes:
+      - <<: [*volumes-sh-vol]
+        volume: 
+          subpath: whisper/

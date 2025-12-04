@@ -1,0 +1,24 @@
+include: 
+  - ../InitVA.yml
+
+services:
+  piper:
+  image: lscr.io/linuxserver/piper:latest
+  container_name: piper
+  restart: unless-stopped
+  ports:
+    - 10200:10200
+  environment:
+    - - <<: [*env-user, *env-tx]
+    - PIPER_VOICE=en_US-amy-medium
+    #- LOCAL_ONLY= #optional
+    - PIPER_LENGTH=1.0 #optional
+    - PIPER_NOISE=0.667 #optional
+    - PIPER_NOISEW=0.333 #optional
+    - PIPER_SPEAKER=0 #optional
+    - NO_STREAMING= #optional
+  <<: [*networks]
+  volumes:
+    - <<: [*volumes-sh-vol]
+      volume: 
+        subpath: piper/

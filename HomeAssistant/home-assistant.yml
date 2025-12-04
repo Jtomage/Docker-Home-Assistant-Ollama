@@ -1,0 +1,19 @@
+include: 
+  - ../InitialSetup.yml
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    restart: unless-stopped
+    cap_add: 
+      - SYS_ADMIN
+    ports: 
+      - 8123:8123
+    environment:
+      <<: *x-env-user
+    <<: [*networks, *x-dependsOn-init]
+    volumes: 
+      - <<: [*volumes-sh-vol]
+        volume: 
+          subpath: homeassistant/

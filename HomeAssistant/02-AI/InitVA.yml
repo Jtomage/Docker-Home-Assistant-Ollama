@@ -1,0 +1,26 @@
+include: 
+  - ../InitialSetup.yml
+
+x-volumes-va-vol: &volumes-va-vol
+  - type: volume
+    source: ${sh-vol}
+    target: /config
+    bind: 
+      propagation: shared
+    volume: 
+      subpath: "#replaceMe/"
+
+services: 
+  # Setup main Volume for storing smart home configs
+  # https://github.com/moby/moby/issues/47842 need to mkdir in the volumes
+  init_va_volume: 
+    image: "alpine:latest"
+    command: |
+      mkdir -p /apps/whisper /apps/piper
+    volumes: 
+      - va-vol:/apps
+
+volumes:
+  va-vol:
+    driver: local
+    name: va-vol

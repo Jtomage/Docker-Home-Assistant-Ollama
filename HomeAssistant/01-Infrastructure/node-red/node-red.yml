@@ -1,0 +1,15 @@
+include: 
+  - ../../InitialSetup.yml
+
+services: 
+  nodered: 
+    container_name: nodered
+    image: nodered/node-red:latest
+    restart: unless-stopped
+    ports: 
+      - 1880:1880
+    <<: [*networks, *x-dependsOn-init]
+    volumes: 
+      - <<: *volumes-sh-vol
+        volume:
+          subpath: nodered/
