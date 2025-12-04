@@ -2,6 +2,12 @@
 
 The AI Platform
 
+## Links
+
+* Ollama Integration for Home Assistant. 
+  * https://www.home-assistant.io/integrations/ollama
+
+
 
 ## Configuration
 

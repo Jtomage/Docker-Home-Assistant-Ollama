@@ -15,14 +15,14 @@ with associated Home Assistant Infrastrucuture Add ons
 ## Table of Contents
 
 1. [Initialization](#initialization)
-2. [Home Assistant]()
-3. [Infrastructure Add Ons]()
-   1. [Node Read]()
-   2. [Code Server]()
-4. [Voice Assistant & AI]()
-    1. [Whisper]()
-    2. [Piper]()
-    3. [Ollama]()
+2. [Home Assistant](./HomeAssistant/ReadMe.md)
+3. Infrastructure Add Ons
+   1. [Node Read](./HomeAssistant/01-Infrastructure/node-red/ReadMe.md)
+   2. [Code Server](./HomeAssistant/01-Infrastructure/code-server/ReadMe.md)
+4. [Voice Assistant & AI](./HomeAssistant/02-AI/ReadMe.md)
+    1. [Whisper](./HomeAssistant/02-AI/faster-whisper/ReadMe.md)
+    2. [Piper](./HomeAssistant/02-AI/piper/ReadMe.md)
+    3. [Ollama](./HomeAssistant/02-AI/ollama/ReadMe.md)
 5. [Future](#future)
 
 
@@ -45,62 +45,6 @@ Currently docker compose  will allow a subpath on a volume which can store diffe
 Docker Volume subpath does **NOT** create the directories. Therefore the current hack to use an init container to create the directories detailed as workaround for the issue. https://github.com/moby/moby/issues/47842 
 
 When using `volume.subpath` the docker desktop may show that the volume is not in use but it will be in used and get written to.
-
-## Home Assistant
-
-The core of the Smart Home. Used to connect devices on the wifi and other networks. Everything in this setup will be based 
-around this application. 
-
-#### Configurations
-
-```
-cap_add
-    - SYS_ADMIN
-```
-Do not need to use priviledge, SYS_ADMIN worked. 
-
-## Node-Red
-
-For more complex smart home automations. Can connect devices wifi devices as well. Can Create different workflows that can be triggered via Home Assistant or on its own
-
-From the change log of the broadlink control v2.1.6
-RF learn and send may not be working yet on the RM Pro 4 series but should be working in the earlier RM Pro units, although I don't have either to test with.
-https://flows.nodered.org/node/node-red-contrib-broadlink-control
-
-### Configuration
-
-- Connect Node Red to Home Assistant
-    - Install Home Assistant Websockets palette
-      - Hamburger Menu -> Manage Palette
-      - Install tab
-      - Search For node-red-contrib-home-assistant-websocket
-      - click install
-- RF / IR Blasters
-    - Currently have Broadlink
-    - Install Broadlink Controls
-      - Hamburger Menu -> Manage Palette
-      - Install tab
-      - Search For node-red-contrib-broadlink-control
-      - click install
-- IP Camera
-    - When setting the configuration, the video may not load, there add, then review later
-
-## Mosquitto
-
-MQTT messaging broker. Used to relay information from different devices. 
-
-## Code-server
-
-Added VS Code, remote code server, as a container to configure Home Assisstant and related files. 
-
-## AI
-
-### Whisper
-
-### Piper
-
-### Ollama
-
 
 ## Future
 
